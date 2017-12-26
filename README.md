@@ -101,7 +101,7 @@ If you just want to use hyperscan in java, you only need to import ```com.gliwka
  Use **sbt** to do benchmark and show elapsed time:
 
  ```
- sbt "testOnly com.gliwka.hyperscan.Benchmark -- -oD"
+ sbt -sbt-version 0.13.15 "testOnly com.gliwka.hyperscan.Benchmark -- -oD"
  ```
 
  ## License
