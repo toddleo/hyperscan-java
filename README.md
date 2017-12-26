@@ -98,7 +98,7 @@ If you just want to use hyperscan in java, you only need to import ```com.gliwka
 
  ## Benchmark
 
- Use **sbt** to do benchmark and show elapsed time:
+ Here's a simple benchmark to compare with native Java regex, using **sbt**:
 
  ```
  sbt -sbt-version 0.13.15 "testOnly com.gliwka.hyperscan.Benchmark -- -oD"
