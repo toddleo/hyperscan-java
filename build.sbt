@@ -4,6 +4,8 @@ version := "0.4.12"
 
 scalaVersion := "2.11.7"
 
+enablePlugins(JmhPlugin)
+
 // Test
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % Test
 
