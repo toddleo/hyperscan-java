@@ -96,13 +96,24 @@ If you just want to use hyperscan in java, you only need to import ```com.gliwka
 
  Feel free to submit a pull request.
 
- ## Benchmark
+## Benchmark
 
- Here's a simple benchmark to compare with native Java regex, using **sbt**:
+### Replace Char Benchmark
 
- ```
- sbt -sbt-version 0.13.15 "testOnly com.gliwka.hyperscan.Benchmark -- -oD"
- ```
+Here's a simple benchmark to compare with native Java regex, using *sbt-jmh*:
 
- ## License
- [BSD 3-Clause License](LICENSE)
+```
+sbt -sbt-version 0.13.15 "jmh:run -i 20 -wi 10 -f1 -t1 com.gliwka.hyperscan.benchmark.ReplaceCharBenchmark"
+```
+
+It profiles for HyperScan and native Java Regex respectively, of the execution time of replacing char.
+
+An alternative benchmark by *ScalaTest* can be run in:
+
+```
+sbt -sbt-version 0.13.15 "testOnly com.gliwka.hyperscan.Benchmark -- -oD"
+```
+
+## License
+
+[BSD 3-Clause License](LICENSE)
