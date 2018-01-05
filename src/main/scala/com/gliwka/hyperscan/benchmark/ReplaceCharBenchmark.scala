@@ -21,13 +21,19 @@ class ReplaceCharBenchmark {
   var expr: Expression = _
   var db: Database = _
   var scanner: Scanner = _
+  var str: String = _
 
   @Setup(Level.Trial)
-  def Fixture(): Unit = {
+  def TrailFixture(): Unit = {
     expr = new Expression(pattern, util.EnumSet.of(ExpressionFlag.SOM_LEFTMOST))
     db = Database.compile(expr)
     scanner = new Scanner()
     scanner.allocScratch(db)
+  }
+
+  @Setup(Level.Iteration)
+  def IterationFixture(): Unit = {
+    str = java.util.UUID.randomUUID.toString
   }
 
   /**
@@ -35,7 +41,6 @@ class ReplaceCharBenchmark {
     */
   @Benchmark
   def HyperScan(): Unit = {
-    val str = java.util.UUID.randomUUID.toString
     val strBld = new StringBuilder(str)
     HyperScanReplace(matcheItr = scanner.scan(db, str).iterator.toIterator, strBld = strBld, replacement = "d")
   }
@@ -52,5 +57,5 @@ class ReplaceCharBenchmark {
     * Replace digits via native Java Regex
     */
   @Benchmark
-  def Native(): Unit = java.util.UUID.randomUUID.toString.replaceAll(pattern, "d")
+  def Native(): Unit = str.replaceAll(pattern, "d")
 }
