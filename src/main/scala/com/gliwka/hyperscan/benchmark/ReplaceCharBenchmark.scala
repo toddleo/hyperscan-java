@@ -2,7 +2,7 @@ package com.gliwka.hyperscan.benchmark
 
 import java.util
 import java.util.concurrent.TimeUnit
-
+import java.util.regex.Pattern
 import scala.collection.JavaConversions._
 import com.gliwka.hyperscan.wrapper._
 import org.openjdk.jmh.annotations._
@@ -22,6 +22,7 @@ class ReplaceCharBenchmark {
   var db: Database = _
   var scanner: Scanner = _
   var str: String = _
+  val javaRegex = Pattern.compile(pattern)
 
   @Setup(Level.Trial)
   def TrailFixture(): Unit = {
@@ -57,5 +58,5 @@ class ReplaceCharBenchmark {
     * Replace digits via native Java Regex
     */
   @Benchmark
-  def Native(): Unit = str.replaceAll(pattern, "d")
+  def Native(): Unit = javaRegex.matcher(str).replaceAll("d")
 }
