@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Scanner implements Closeable {
     private PointerByReference scratchReference = new PointerByReference();
-    private Pointer scratch;
+    protected Pointer scratch;
 
 
     /**
@@ -64,10 +64,10 @@ public class Scanner implements Closeable {
         scratch = scratchReference.getValue();
     }
 
-    private LinkedList<long[]> matchedIds = new LinkedList<>();
+    protected LinkedList<long[]> matchedIds = new LinkedList<>();
     private List<Match> noMatches = Collections.emptyList();
 
-    private HyperscanLibrary.match_event_handler matchHandler = new HyperscanLibrary.match_event_handler() {
+    protected HyperscanLibrary.match_event_handler matchHandler = new HyperscanLibrary.match_event_handler() {
         public int invoke(int id, long from, long to, int flags, Pointer context) {
             long[] tuple = { id, from, to };
             matchedIds.add(tuple);

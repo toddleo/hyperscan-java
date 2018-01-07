@@ -20,15 +20,15 @@ class ReplaceCharBenchmark {
   val pattern: String = """\d"""
   var expr: Expression = _
   var db: Database = _
-  var scanner: Scanner = _
+  var scanner: SingleRegexScanner = _
   var str: String = _
-  val javaRegex = Pattern.compile(pattern)
+  val javaRegex: Pattern = Pattern.compile(pattern)
 
   @Setup(Level.Trial)
   def TrailFixture(): Unit = {
     expr = new Expression(pattern, util.EnumSet.of(ExpressionFlag.SOM_LEFTMOST))
     db = Database.compile(expr)
-    scanner = new Scanner()
+    scanner = new SingleRegexScanner()
     scanner.allocScratch(db)
   }
 
@@ -43,13 +43,13 @@ class ReplaceCharBenchmark {
   @Benchmark
   def HyperScan(): Unit = {
     val strBld = new StringBuilder(str)
-    HyperScanReplace(matcheItr = scanner.scan(db, str).iterator.toIterator, strBld = strBld, replacement = "d")
+    HyperScanReplace(matcheItr = scanner.SingleRegexScan(db, str).toIterator, strBld = strBld, replacement = "d")
   }
 
-  private def HyperScanReplace(matcheItr: Iterator[Match], strBld: StringBuilder, replacement: String): StringBuilder = {
-    matcheItr.foreach { _match: Match =>
-      val offset: Int = _match.getStartPosition.toInt
-      strBld.replace(offset, offset + 1, replacement)
+  private def HyperScanReplace(matcheItr: Iterator[Array[Long]], strBld: StringBuilder, replacement: String): StringBuilder = {
+    matcheItr.foreach { _match =>
+      val offset: Int = _match(2).toInt // replace single char, only end index is needed, SOM_LEFTMOST can be ignored
+      strBld.replace(offset - 1, offset, replacement)
     }
     strBld
   }
