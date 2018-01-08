@@ -43,7 +43,7 @@ class ReplaceCharBenchmark {
   @Benchmark
   def HyperScan(): Unit = {
     val strBld = new StringBuilder(str)
-    HyperScanReplace(matcheItr = scanner.scan(db, str).toIterator, strBld = strBld, replacement = "d")
+    HyperScanReplace(matcheItr = scanner.SingleRegexScan(db, str).toIterator, strBld = strBld, replacement = "d")
   }
 
   private def HyperScanReplace(matcheItr: Iterator[Array[Long]], strBld: StringBuilder, replacement: String): StringBuilder = {

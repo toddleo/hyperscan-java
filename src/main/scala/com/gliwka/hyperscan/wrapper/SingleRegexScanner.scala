@@ -14,7 +14,7 @@ class SingleRegexScanner extends Scanner {
     * @param input String to match against
     * @return List of match offsets: (expr index, start offset, end offset)
     */
-  override def scan(db: Database, input: String): util.LinkedList[Array[Long]] = {
+  def SingleRegexScan(db: Database, input: String): util.LinkedList[Array[Long]] = {
     val dbPointer: Pointer = db.getPointer
 
     val utf8bytes = input.getBytes(StandardCharsets.UTF_8)
